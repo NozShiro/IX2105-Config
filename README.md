@@ -6,40 +6,46 @@
  
 ## ホストネームの設定
 ```IX2015
-hostname ix2105 
+Router(config)# hostname ix2105 
 ```
 
 ## タイムゾーンの設定
 ```
-timezone +09 00 #Japan
-```
-
-## ログ情報の設定
-```
-logging buffered '4096～ 8388608 ' #logging buffer size settings
-logging subsystem all warn #All subsystems message enable Warning conditions
-logging timestamp datetime #logging add message datetime
+IX2105(config)# timezone +09 00 #Japan
 ```
 
 ## ユーザーの追加と権限付与
 ```
-username 'hoge' password hash 'hogehoge' administrator #hashで暗号化できる
+IX2105(config)# username 'hoge' password hash 'hogehoge' administrator #hashで暗号化できる
+```
+
+## DHCPの設定
+```
+IX2105(config)# ip dhcp enable
+IX2105(config)# ip dhcp profile lan1 #プロファイルの設定
+IX2105(config-dhcp-lan1)# dns-server 192.168.1.1dns-server 192.168.0.1
+```
+## ログ情報の設定
+```
+IX2105(config)# logging buffered '4096～ 8388608 ' #logging buffer size settings
+IX2105(config)# logging subsystem all warn #All subsystems message enable Warning conditions
+IX2105(config)# logging timestamp datetime #logging add message datetime
 ```
 
 ## ntpの設定
 SNTPもあるが、今回はNTPを使用
 ```
-ntp ip enable #ntpの有効化 
-ntp interval 3600 #NTPの時刻同期の間隔
-ntp server 133.243.238.163 priority 10 #NTPサーバーはNICTから参照
-ntp master #ローカルNW内のNTPサーバーをもたせた
+IX2105(config)# ntp ip enable #ntpの有効化 
+IX2105(config)# ntp interval 3600 #NTPの時刻同期の間隔
+IX2105(config)# ntp server 133.243.238.163 priority 10 #NTPサーバーはNICTから参照
+IX2105(config)# ntp master #ローカルNW内のNTPサーバーをもたせた
 ```
 
 ## PPPプロファイルの設定
 ```
-ppp profile 'hoge' #
-  authentication myname j03bj0hk@one.ocn.ne.jp
-  authentication password j03bj0hk@one.ocn.ne.jp fmmc82
+IX2105(config)# ppp profile 'hoge' #
+  authentication myname 
+  authentication password 
 ```
 ## インターネット接続 ipv4(PPPoE)
 ```
